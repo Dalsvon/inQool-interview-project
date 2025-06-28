@@ -17,7 +17,9 @@ public class SurfaceTypeRepositoryImpl implements SurfaceTypeRepository{
     @Override
     @Transactional(readOnly = true)
     public SurfaceType find(long id) {
-        return entityManager.find(SurfaceType.class, id);
+        SurfaceType type = entityManager.find(SurfaceType.class, id);
+        entityManager.detach(type);
+        return type;
     }
 
     @Override
