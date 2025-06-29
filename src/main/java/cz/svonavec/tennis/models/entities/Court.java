@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,9 +24,6 @@ public class Court implements Serializable {
 
     @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "court")
-    private List<Reservation> reservations;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="surface_id")

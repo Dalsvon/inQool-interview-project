@@ -9,7 +9,6 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,9 +31,6 @@ public class SurfaceType implements Serializable {
     @NotNull
     @Column(name = "cost_per_minute")
     private BigDecimal costPerMinute;
-
-    @OneToMany(mappedBy = "surface")
-    private List<Court> courts;
 
     @Override
     public boolean equals(Object o) {
