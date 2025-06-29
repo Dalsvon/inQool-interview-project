@@ -3,7 +3,6 @@ package cz.svonavec.tennis.service;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 import cz.svonavec.tennis.repository.SurfaceTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

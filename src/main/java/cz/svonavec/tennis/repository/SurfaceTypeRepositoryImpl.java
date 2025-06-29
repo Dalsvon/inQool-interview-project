@@ -25,7 +25,7 @@ public class SurfaceTypeRepositoryImpl implements SurfaceTypeRepository{
     @Override
     @Transactional(readOnly = true)
     public List<SurfaceType> findAll() {
-        return entityManager.createQuery("SELECT surfaceType FROM SurfaceType surfaceType", SurfaceType.class)
+        return entityManager.createQuery("SELECT surfaceType FROM SurfaceType surfaceType WHERE surfaceType.deletedAt IS NULL", SurfaceType.class)
                 .getResultList();
     }
 
