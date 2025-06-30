@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InvalidObjectException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class SurfaceTypeRestController {
     })
     public ResponseEntity<SurfaceTypeDTO> createReservation(
             @Parameter(description = "Surface data to create", required = true)
-            @Valid @RequestBody SurfaceTypeCreateDTO surfaceTypeCreateDTO) throws InvalidObjectException {
+            @Valid @RequestBody SurfaceTypeCreateDTO surfaceTypeCreateDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(surfaceTypeFacade.create(surfaceTypeCreateDTO));
     }
 
@@ -68,7 +66,8 @@ public class SurfaceTypeRestController {
     @Operation(summary = "Update surface by ID", description = "Returns a updated surface with corresponding ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Surface found and updated"),
-            @ApiResponse(responseCode = "404", description = "Surface not found")
+            @ApiResponse(responseCode = "404", description = "Surface not found"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
     })
     public ResponseEntity<SurfaceTypeDTO> update(
             @Parameter(description = "ID of the surface type to be retrieved", required = true,

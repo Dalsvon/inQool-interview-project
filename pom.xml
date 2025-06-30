@@ -22,7 +22,7 @@
         <swagger.version>1.6.13</swagger.version>
         <lombok.version>1.18.30</lombok.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.7.0</springdoc.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <version>${jakarta-validation.version}</version>
         <version>${mockito.version}</version>

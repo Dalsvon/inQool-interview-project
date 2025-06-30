@@ -1,13 +1,13 @@
 package cz.svonavec.tennis.service;
 
+import cz.svonavec.tennis.exception.BadRequestException;
+import cz.svonavec.tennis.exception.ResourceNotFoundException;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 import cz.svonavec.tennis.repository.SurfaceTypeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.InvalidObjectException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class SurfaceTypeService {
     public SurfaceType findById(long id) {
         SurfaceType type = surfaceTypeRepository.find(id);
         if (type == null || type.getDeletedAt() != null) {
-            throw new EntityNotFoundException("Couldn't find reservation with id = " + id + ".");
+            throw new ResourceNotFoundException("Couldn't find reservation with this id.");
         }
         return type;
     }
@@ -35,9 +35,9 @@ public class SurfaceTypeService {
     }
 
     @Transactional
-    public SurfaceType create(SurfaceType surfaceType) throws InvalidObjectException {
+    public SurfaceType create(SurfaceType surfaceType) {
         if (surfaceType.getId() != 0) {
-            throw new InvalidObjectException("Trying to create a surface with set id.");
+            throw new BadRequestException("Trying to create a surface with set id.");
         }
         return surfaceTypeRepository.create(surfaceType);
     }
@@ -45,11 +45,15 @@ public class SurfaceTypeService {
     @Transactional
     public SurfaceType update(long id, BigDecimal cost, String name) {
         SurfaceType surfaceType = findById(id);
-        if (cost != null) {
-            surfaceType.setCostPerMinute(cost);
-        }
-        if (name != null) {
-            surfaceType.setName(name);
+        if (cost != null || name != null) {
+            if (cost != null) {
+                surfaceType.setCostPerMinute(cost);
+            }
+            if (name != null) {
+                surfaceType.setName(name);
+            }
+        } else {
+            throw new BadRequestException("At least one query field must be used.");
         }
         return surfaceTypeRepository.update(surfaceType);
     }
