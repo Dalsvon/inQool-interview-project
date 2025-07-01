@@ -1,0 +1,75 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1-create-surface-table" author="svonavec">
+        <createTable tableName="Surface">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP"/>
+            <column name="name" type="VARCHAR(70)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="cost_per_minute" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2-create-court-table" author="svonavec">
+        <createTable tableName="Court">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP"/>
+            <column name="description" type="VARCHAR(500)"/>
+            <column name="surface_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3-create-reservation-table" author="svonavec">
+        <createTable tableName="Reservation">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="doubles" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="starts_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ends_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP"/>
+            <column name="cost" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="court_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4-add-foreign-key-constraints" author="svonavec">
+        <addForeignKeyConstraint
+                baseTableName="Court"
+                baseColumnNames="surface_id"
+                constraintName="fk_court_surface_type"
+                referencedTableName="Surface"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="Reservation"
+                baseColumnNames="court_id"
+                constraintName="fk_reservation_court"
+                referencedTableName="Court"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -24,9 +24,9 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <springdoc.version>2.7.0</springdoc.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <version>${jakarta-validation.version}</version>
-        <version>${mockito.version}</version>
-        <version>${junit.version}</version>
+        <jakarta-validation.version>3.1.0-M2</jakarta-validation.version>
+        <mockito.version>5.16.1</mockito.version>
+        <liquidbase.version>4.27.0</liquidbase.version>
     </properties>
 
     <dependencies>
@@ -94,6 +94,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquidbase.version}</version>
         </dependency>
     </dependencies>
 

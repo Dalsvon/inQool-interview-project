@@ -37,6 +37,7 @@ public class Reservation implements Serializable {
     private LocalDateTime deletedAt;
 
     // So that administrator can change the cost regardless of the surface and time
+    @NotNull
     @Column(name = "cost")
     private BigDecimal cost;
 
