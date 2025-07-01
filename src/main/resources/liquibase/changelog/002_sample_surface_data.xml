@@ -1,0 +1,29 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="5-seed-sample-surface-type-data" author="svonavec" context="seed">
+        <insert tableName="Surface">
+            <column name="name" value="Clay"/>
+            <column name="cost_per_minute" value="5.50"/>
+        </insert>
+
+        <insert tableName="Surface">
+            <column name="name" value="Hard"/>
+            <column name="cost_per_minute" value="3.75"/>
+        </insert>
+
+        <insert tableName="Surface">
+            <column name="name" value="Grass"/>
+            <column name="cost_per_minute" value="4.00"/>
+        </insert>
+
+        <insert tableName="Surface">
+            <column name="name" value="Carpet"/>
+            <column name="cost_per_minute" value="3.00"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

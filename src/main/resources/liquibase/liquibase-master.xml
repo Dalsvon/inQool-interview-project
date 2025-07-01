@@ -6,4 +6,6 @@
 
     <include file="classpath:liquibase/changelog/001_initial_schema.xml" relativeToChangelogFile="false" />
 
+    <include file="classpath:liquibase/changelog/002_sample_surface_data.xml" relativeToChangelogFile="false" />
+
 </databaseChangeLog>
