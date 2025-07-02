@@ -36,6 +36,7 @@ public class User implements Serializable {
     private String name;
 
     @NotNull
+    @Size(min = 8)
     @Column(name = "password")
     private String password;
 
