@@ -45,6 +45,10 @@ public class Reservation implements Serializable {
     @JoinColumn(name="court_id")
     private Court court;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
