@@ -25,5 +25,5 @@ public class CourtDTO {
     private String description;
 
     @Schema(description = "Surface of the court")
-    private SurfaceType surface;
+    private SurfaceTypeDTO surface;
 }

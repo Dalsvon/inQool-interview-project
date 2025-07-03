@@ -24,7 +24,7 @@ public class SurfaceTypeService {
     public SurfaceType findById(long id) {
         SurfaceType type = surfaceTypeRepository.find(id);
         if (type == null || type.getDeletedAt() != null) {
-            throw new ResourceNotFoundException("Couldn't find reservation with this id.");
+            throw new ResourceNotFoundException("Couldn't find surface type with this id.");
         }
         return type;
     }

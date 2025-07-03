@@ -1,6 +1,5 @@
 package cz.svonavec.tennis.repository;
 
-import cz.svonavec.tennis.models.entities.Court;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 
 import java.util.List;

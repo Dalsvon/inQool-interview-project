@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/surfaces")
-@Tag(name = "Surface Types", description = "surface type management service")
+@Tag(name = "Surface Types", description = "Surface type management service")
 public class SurfaceTypeRestController {
     private final SurfaceTypeFacade surfaceTypeFacade;
 
@@ -56,7 +56,7 @@ public class SurfaceTypeRestController {
             @ApiResponse(responseCode = "201", description = "Surface type created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    public ResponseEntity<SurfaceTypeDTO> createReservation(
+    public ResponseEntity<SurfaceTypeDTO> create(
             @Parameter(description = "Surface data to create", required = true)
             @Valid @RequestBody SurfaceTypeCreateDTO surfaceTypeCreateDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(surfaceTypeFacade.create(surfaceTypeCreateDTO));
