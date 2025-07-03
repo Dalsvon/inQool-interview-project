@@ -10,4 +10,6 @@
 
     <include file="classpath:liquibase/changelog/003_user_definition.xml" relativeToChangelogFile="false" />
 
+    <include file="classpath:liquibase/changelog/004_creation_timestamps_sample_courts.xml" relativeToChangelogFile="false" />
+
 </databaseChangeLog>

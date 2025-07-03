@@ -3,6 +3,7 @@ package cz.svonavec.tennis.repository;
 import cz.svonavec.tennis.factory.SurfaceTypeFactory;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class SurfaceTypeRepositoryTests {
     @BeforeEach
     @Transactional
     void setUp() {
+        entityManager.createQuery("DELETE FROM Court").executeUpdate();
         entityManager.createQuery("DELETE FROM SurfaceType").executeUpdate();
         entityManager.flush();
     }

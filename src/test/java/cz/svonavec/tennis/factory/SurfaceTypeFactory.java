@@ -4,12 +4,14 @@ import cz.svonavec.tennis.models.dtos.SurfaceTypeDTO;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class SurfaceTypeFactory {
     public static SurfaceType createSurfaceType() {
         SurfaceType surfaceType = new SurfaceType();
         surfaceType.setCostPerMinute(BigDecimal.ONE);
         surfaceType.setName("Grass");
+        surfaceType.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
 
         return surfaceType;
     }
@@ -18,6 +20,7 @@ public class SurfaceTypeFactory {
         SurfaceTypeDTO surfaceType = new SurfaceTypeDTO();
         surfaceType.setCostPerMinute(BigDecimal.ONE);
         surfaceType.setName("Grass");
+        surfaceType.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
 
         return surfaceType;
     }

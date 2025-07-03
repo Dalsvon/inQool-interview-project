@@ -38,6 +38,7 @@ public class SurfaceTypeMapper {
         dto.setName(type.getName());
         dto.setDeletedAt(type.getDeletedAt());
         dto.setCostPerMinute(type.getCostPerMinute());
+        dto.setCreatedAt(type.getCreatedAt());
         dto.setId(type.getId());
 
         return dto;

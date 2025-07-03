@@ -20,6 +20,9 @@ public class SurfaceTypeDTO {
     @Schema(description = "Time of soft deletion of the surface", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime deletedAt;
 
+    @Schema(description = "Time of creation of the surface", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+    private LocalDateTime createdAt;
+
     @Schema(description = "Name of the surface", example = "Grass")
     private String name;
 

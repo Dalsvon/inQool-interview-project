@@ -21,6 +21,9 @@ public class ReservationDTO {
     @Schema(description = "Time of soft deletion of the reservation", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime deletedAt;
 
+    @Schema(description = "Time of creation of the reservation", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+    private LocalDateTime createdAt;
+
     @Schema(description = "Is the game doubles game?")
     private boolean doubles;
 

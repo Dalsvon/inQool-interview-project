@@ -34,6 +34,7 @@ public class CourtMapper {
         dto.setId(court.getId());
         dto.setDescription(court.getDescription());
         dto.setDeletedAt(court.getDeletedAt());
+        dto.setCreatedAt(court.getCreatedAt());
         dto.setSurface(surfaceTypeMapper.mapToDTO(court.getSurface()));
 
         return dto;

@@ -21,6 +21,9 @@ public class CourtDTO {
     @Schema(description = "Time of soft deletion of the court", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime deletedAt;
 
+    @Schema(description = "Time of creation of the court", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+    private LocalDateTime createdAt;
+
     @Schema(description = "Description of the court", nullable = true, example = "First outdoor court on the left from the entrance")
     private String description;
 

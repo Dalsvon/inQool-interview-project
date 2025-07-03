@@ -22,6 +22,9 @@ public class UserDTO {
     @Schema(description = "Time of soft deletion of the surface", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime deletedAt;
 
+    @Schema(description = "Time of creation of the user", nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+    private LocalDateTime createdAt;
+
     @Schema(description = "Unique telephone number of the user. The number must begin with + character and county code (and area code in necessary). Do not include spaces.", example = "+412908123456")
     private String phoneNumber;
 
