@@ -1,18 +1,13 @@
 package cz.svonavec.tennis.facade;
 
 import cz.svonavec.tennis.mapper.CourtMapper;
-import cz.svonavec.tennis.mapper.SurfaceTypeMapper;
 import cz.svonavec.tennis.models.dtos.CourtCreateDTO;
 import cz.svonavec.tennis.models.dtos.CourtDTO;
-import cz.svonavec.tennis.models.dtos.SurfaceTypeCreateDTO;
-import cz.svonavec.tennis.models.dtos.SurfaceTypeDTO;
 import cz.svonavec.tennis.service.CourtService;
-import cz.svonavec.tennis.service.SurfaceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service

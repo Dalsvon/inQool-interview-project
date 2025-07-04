@@ -3,6 +3,7 @@ package cz.svonavec.tennis.service;
 import cz.svonavec.tennis.exception.BadRequestException;
 import cz.svonavec.tennis.exception.ResourceNotFoundException;
 import cz.svonavec.tennis.models.entities.Court;
+import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 import cz.svonavec.tennis.repository.CourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,15 @@ public class CourtService {
 
     public final SurfaceTypeService surfaceTypeService;
 
+    public final ReservationService reservationService;
+
     @Autowired
-    public CourtService(CourtRepository courtRepository, SurfaceTypeService surfaceTypeService){
+    public CourtService(CourtRepository courtRepository,
+                        SurfaceTypeService surfaceTypeService,
+                        ReservationService reservationService){
         this.courtRepository = courtRepository;
         this.surfaceTypeService = surfaceTypeService;
+        this.reservationService = reservationService;
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +73,10 @@ public class CourtService {
     @Transactional
     public Court delete(long id) {
         Court court = findById(id);
-        // Add reservation delete
+        List<Reservation> reservations = reservationService.findByCourt(id);
+        for (Reservation reservation : reservations) {
+            reservationService.delete(reservation.getId());
+        }
         return courtRepository.delete(court);
     }
 }
