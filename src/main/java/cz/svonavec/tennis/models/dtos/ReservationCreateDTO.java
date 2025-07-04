@@ -23,4 +23,7 @@ public class ReservationCreateDTO {
 
     @Schema(description = "Id of court that is reserved")
     private Long courtId;
+
+    @Schema(description = "Id of user that is reserving the court")
+    private Long userId;
 }

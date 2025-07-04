@@ -17,7 +17,7 @@ public class ReservationUpdateDTO {
     private long id;
 
     @Schema(description = "Is the game doubles game?", nullable = true)
-    private boolean doubles;
+    private Boolean doubles;
 
     @Schema(description = "Time of start of the reserved game", nullable = true)
     private LocalDateTime startsAt;

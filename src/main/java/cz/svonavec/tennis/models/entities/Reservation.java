@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -54,6 +55,19 @@ public class Reservation implements Serializable {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
+    private static BigDecimal DOUBLES_MULTIPLIER = BigDecimal.valueOf(1.5);
+
+    public void calculateCost() {
+        if (court == null || court.getSurface() == null) {
+            cost = BigDecimal.ZERO;
+            return;
+        }
+        Duration duration = Duration.between(startsAt, endsAt);
+        long minutes = duration.toMinutes();
+        BigDecimal gameMultiplier = isDoubles() ? DOUBLES_MULTIPLIER : BigDecimal.ONE;
+        cost = BigDecimal.valueOf(minutes).multiply(court.getSurface().getCostPerMinute()).multiply(gameMultiplier);
+    }
 
     @Override
     public boolean equals(Object o) {

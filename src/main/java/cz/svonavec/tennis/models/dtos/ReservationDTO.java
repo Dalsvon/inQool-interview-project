@@ -37,5 +37,8 @@ public class ReservationDTO {
     private BigDecimal cost;
 
     @Schema(description = "Court that is reserved", accessMode = Schema.AccessMode.READ_ONLY)
-    private Court court;
+    private CourtDTO court;
+
+    @Schema(description = "User that is reserving the court", accessMode = Schema.AccessMode.READ_ONLY)
+    private UserDTO user;
 }
