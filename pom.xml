@@ -27,6 +27,7 @@
         <jakarta-validation.version>3.1.0-M2</jakarta-validation.version>
         <mockito.version>5.16.1</mockito.version>
         <liquidbase.version>4.27.0</liquidbase.version>
+        <securitycrypto.version>6.4.4</securitycrypto.version>
     </properties>
 
     <dependencies>
@@ -98,6 +99,11 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquidbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>${securitycrypto.version}</version>
         </dependency>
     </dependencies>
 
