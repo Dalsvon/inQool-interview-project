@@ -64,6 +64,9 @@ public class UserService {
                 unhashedPassword.chars().noneMatch(Character::isUpperCase)) {
             throw new BadRequestException("Password must contain at least 8 characters, numbers and capitals.");
         }
+        if (!user.validatePhoneNumber()) {
+            throw new BadRequestException("Phone number does not followed allowed formats");
+        }
         String hashedPassword = passwordEncoder.encode(unhashedPassword);
         user.setPassword(hashedPassword);
         user.setRoles(List.of(Role.USER));

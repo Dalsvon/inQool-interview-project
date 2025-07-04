@@ -12,7 +12,7 @@
             <column name="deleted_at" type="TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
-            <column name="phone_number" type="VARCHAR(20)">
+            <column name="phone_number" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">

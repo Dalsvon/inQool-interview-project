@@ -1,9 +1,6 @@
 package cz.svonavec.tennis.mapper;
 
-import cz.svonavec.tennis.models.dtos.CourtCreateDTO;
-import cz.svonavec.tennis.models.dtos.CourtDTO;
-import cz.svonavec.tennis.models.dtos.UserDTO;
-import cz.svonavec.tennis.models.dtos.UserUpdateDTO;
+import cz.svonavec.tennis.models.dtos.*;
 import cz.svonavec.tennis.models.entities.Court;
 import cz.svonavec.tennis.models.entities.User;
 import org.springframework.stereotype.Service;
@@ -13,6 +10,16 @@ import java.util.List;
 
 @Service
 public class UserMapper {
+    public User mapToEntity(UserRegisterDTO dto) {
+        User user = new User();
+
+        user.setId(0);
+        user.setName(dto.getName());
+        user.setPhoneNumber(dto.getPhoneNumber());
+
+        return user;
+    }
+
     public User mapToEntity(UserUpdateDTO dto) {
         User user = new User();
 

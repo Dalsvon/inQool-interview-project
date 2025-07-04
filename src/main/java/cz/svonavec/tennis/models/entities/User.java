@@ -33,7 +33,7 @@ public class User implements Serializable {
     private LocalDateTime createdAt;
 
     @NotNull
-    @Size(max = 20)
+    @Size(max = 30)
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
@@ -52,6 +52,18 @@ public class User implements Serializable {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private List<Role> roles = new ArrayList<>();
+
+    /**
+     * Validates phone number
+     *
+     * @return true, if the number begins with "+" character and contains only numbers and common formatting characters
+     */
+    public boolean validatePhoneNumber () {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty() || phoneNumber.length() > 30) {
+            return false;
+        }
+        return phoneNumber.matches("^\\+[\\d\\s\\-().]+$");
+    }
 
     @Override
     public boolean equals(Object o) {

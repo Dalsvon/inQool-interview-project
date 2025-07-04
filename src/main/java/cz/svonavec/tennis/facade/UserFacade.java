@@ -2,6 +2,8 @@ package cz.svonavec.tennis.facade;
 
 import cz.svonavec.tennis.mapper.UserMapper;
 import cz.svonavec.tennis.models.dtos.UserDTO;
+import cz.svonavec.tennis.models.dtos.UserRegisterDTO;
+import cz.svonavec.tennis.models.dtos.UserUpdateDTO;
 import cz.svonavec.tennis.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +29,30 @@ public class UserFacade {
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return userMapper.mapToDTOList(userService.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findByPhoneNumber(String phoneNumber) {
+        return userMapper.mapToDTO(userService.findByPhoneNumber(phoneNumber));
+    }
+
+    @Transactional(readOnly = true)
+    public boolean login(String phoneNumber, String password) {
+        return userService.login(phoneNumber, password);
+    }
+
+    @Transactional
+    public UserDTO register(UserRegisterDTO dto) {
+        return userMapper.mapToDTO(userService.register(userMapper.mapToEntity(dto), dto.getPassword()));
+    }
+
+    @Transactional
+    public UserDTO update(UserUpdateDTO dto) {
+        return userMapper.mapToDTO(userService.update(userMapper.mapToEntity(dto)));
+    }
+
+    @Transactional
+    public UserDTO delete(long id) {
+        return userMapper.mapToDTO(userService.delete(id));
     }
 }
