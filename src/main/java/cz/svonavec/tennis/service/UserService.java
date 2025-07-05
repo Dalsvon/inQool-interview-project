@@ -6,6 +6,7 @@ import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.Role;
 import cz.svonavec.tennis.models.entities.User;
 import cz.svonavec.tennis.repository.UserRepository;
+import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,9 @@ public class UserService {
         if (!user.validatePhoneNumber()) {
             throw new BadRequestException("Phone number does not followed allowed formats");
         }
+        if (userRepository.findByPhoneNumber(user.getPhoneNumber()) != null) {
+            throw new BadRequestException("This phone number was already used in another account.");
+        }
         String hashedPassword = passwordEncoder.encode(unhashedPassword);
         user.setPassword(hashedPassword);
         user.setRoles(List.of(Role.USER));
@@ -73,7 +77,7 @@ public class UserService {
     @Transactional
     public User update(User user) {
         User foundUser = findById(user.getId());
-        if (user.getRoles() != null || user.getName() != null) {
+        if ((user.getRoles() != null && user.getRoles().size() != 0) || user.getName() != null) {
             if (user.getName() != null) {
                 foundUser.setName(user.getName());
             }

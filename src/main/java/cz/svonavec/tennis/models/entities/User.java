@@ -18,7 +18,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString
-@Table(name = "User")
+@Table(name = "Users")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +47,7 @@ public class User implements Serializable {
     private String password;
 
     @NotNull
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

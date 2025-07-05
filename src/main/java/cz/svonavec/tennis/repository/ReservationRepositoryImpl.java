@@ -48,7 +48,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         if (futureOnly) {
             return entityManager.createQuery("SELECT reservation FROM Reservation reservation " +
                             "WHERE reservation.deletedAt IS NULL AND reservation.user.phoneNumber = :phoneNumber AND " +
-                            "reservation.startsAt < :time ORDER BY reservation.createdAt ASC", Reservation.class)
+                            "reservation.startsAt > :time ORDER BY reservation.createdAt ASC", Reservation.class)
                     .setParameter("phoneNumber", phoneNumber)
                     .setParameter("time", time)
                     .getResultList();

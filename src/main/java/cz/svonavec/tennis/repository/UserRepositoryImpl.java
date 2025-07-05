@@ -3,6 +3,7 @@ package cz.svonavec.tennis.repository;
 import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,15 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     @Transactional(readOnly = true)
     public User findByPhoneNumber(String phoneNumber) {
-        User user = entityManager.createQuery("SELECT user FROM User user " +
-                        "WHERE user.deletedAt IS NULL AND user.phoneNumber = :phoneNumber", User.class)
-                .setParameter("phoneNumber", phoneNumber)
-                .getSingleResult();
+        User user;
+        try {
+            user = entityManager.createQuery("SELECT user FROM User user " +
+                            "WHERE user.phoneNumber = :phoneNumber", User.class)
+                    .setParameter("phoneNumber", phoneNumber)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            user = null;
+        }
         if (user != null) {
             entityManager.detach(user);
         }
@@ -66,7 +72,7 @@ public class UserRepositoryImpl implements UserRepository{
     public User delete(User user) {
         LocalDateTime dateTime = LocalDateTime.now();
         entityManager.createQuery("UPDATE Reservation reservation " +
-                        "SET reservation.deletedAt = :dateTime WHERE reservation.user.id = :id AND reservation.deletedAt IS NULL", Reservation.class)
+                        "SET reservation.deletedAt = :dateTime WHERE reservation.user.id = :id AND reservation.deletedAt IS NULL")
                 .setParameter("id", user.getId()).setParameter("dateTime", dateTime).executeUpdate();
         user.setDeletedAt(dateTime);
         return entityManager.merge(user);

@@ -58,7 +58,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public boolean isOverlapping(LocalDateTime start, LocalDateTime end, long courtId) {
+    public boolean isOverlapping(LocalDateTime start, LocalDateTime end, long courtId, long id) {
         if (end.isBefore(start)) {
             throw new BadRequestException("Reservation start date must be before end date.");
         }
@@ -66,7 +66,7 @@ public class ReservationService {
         for (Reservation res : reservations) {
             // Reservation can begin at the same time another one ends
             if (!(res.getStartsAt().isAfter(end) || start.isAfter(res.getEndsAt()) ||
-                    res.getStartsAt().isEqual(end) || start.isEqual(res.getEndsAt()))) {
+                    res.getStartsAt().isEqual(end) || start.isEqual(res.getEndsAt())) && res.getId() != id) {
                 return true;
             }
         }
@@ -78,7 +78,7 @@ public class ReservationService {
         if (reservation.getId() != 0) {
             throw new BadRequestException("Trying to create a court with set id.");
         }
-        if (isOverlapping(reservation.getStartsAt(), reservation.getEndsAt(), courtId)) {
+        if (isOverlapping(reservation.getStartsAt(), reservation.getEndsAt(), courtId, 0)) {
             throw new BadRequestException("There already exists a reservation for this court overlapping with this reservation.");
         }
         User user = userService.findByPhoneNumber(phoneNumber);
@@ -102,7 +102,7 @@ public class ReservationService {
             if (end != null) {
                 foundReservation.setEndsAt(end);
             }
-            if (isOverlapping(foundReservation.getStartsAt(), foundReservation.getEndsAt(), foundReservation.getCourt().getId())) {
+            if (isOverlapping(foundReservation.getStartsAt(), foundReservation.getEndsAt(), foundReservation.getCourt().getId(), foundReservation.getId())) {
                 throw new BadRequestException("There already exists a reservation for this court overlapping with this reservation.");
             }
             if (doubles != null) {

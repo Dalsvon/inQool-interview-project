@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.math.RoundingMode;
 
 @Entity
 @Setter
@@ -66,7 +67,11 @@ public class Reservation implements Serializable {
         Duration duration = Duration.between(startsAt, endsAt);
         long minutes = duration.toMinutes();
         BigDecimal gameMultiplier = isDoubles() ? DOUBLES_MULTIPLIER : BigDecimal.ONE;
-        cost = BigDecimal.valueOf(minutes).multiply(court.getSurface().getCostPerMinute()).multiply(gameMultiplier);
+        BigDecimal minuteCost = court.getSurface().getCostPerMinute().multiply(gameMultiplier);
+        // You pay for minutes you play, unless you create a reservation lasting less then a minute.
+        // In such case you pay for 1 minute
+        cost = minutes != 0 ? minuteCost.multiply(BigDecimal.valueOf(minutes)) : minuteCost;
+        cost = cost.setScale(2, java.math.RoundingMode.HALF_UP);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class CourtRepositoryImpl implements CourtRepository{
     public Court delete(Court court) {
         LocalDateTime dateTime = LocalDateTime.now();
         entityManager.createQuery("UPDATE Reservation reservation " +
-                        "SET reservation.deletedAt = :dateTime WHERE reservation.court.id = :id AND reservation.deletedAt IS NULL", Reservation.class)
+                        "SET reservation.deletedAt = :dateTime WHERE reservation.court.id = :id AND reservation.deletedAt IS NULL")
                 .setParameter("id", court.getId()).setParameter("dateTime", dateTime).executeUpdate();
         court.setDeletedAt(dateTime);
         return entityManager.merge(court);
