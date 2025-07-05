@@ -1,5 +1,6 @@
 package cz.svonavec.tennis.repository;
 
+import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -64,6 +65,9 @@ public class UserRepositoryImpl implements UserRepository{
     @Transactional
     public User delete(User user) {
         LocalDateTime dateTime = LocalDateTime.now();
+        entityManager.createQuery("UPDATE Reservation reservation " +
+                        "SET reservation.deletedAt = :dateTime WHERE reservation.user.id = :id AND reservation.deletedAt IS NULL", Reservation.class)
+                .setParameter("id", user.getId()).setParameter("dateTime", dateTime).executeUpdate();
         user.setDeletedAt(dateTime);
         return entityManager.merge(user);
     }

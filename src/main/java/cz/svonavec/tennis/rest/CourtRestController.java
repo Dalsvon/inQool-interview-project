@@ -1,11 +1,8 @@
 package cz.svonavec.tennis.rest;
 
 import cz.svonavec.tennis.facade.CourtFacade;
-import cz.svonavec.tennis.facade.SurfaceTypeFacade;
 import cz.svonavec.tennis.models.dtos.CourtCreateDTO;
 import cz.svonavec.tennis.models.dtos.CourtDTO;
-import cz.svonavec.tennis.models.dtos.SurfaceTypeCreateDTO;
-import cz.svonavec.tennis.models.dtos.SurfaceTypeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController

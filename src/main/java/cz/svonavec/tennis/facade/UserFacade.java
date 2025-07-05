@@ -5,6 +5,7 @@ import cz.svonavec.tennis.models.dtos.UserDTO;
 import cz.svonavec.tennis.models.dtos.UserRegisterDTO;
 import cz.svonavec.tennis.models.dtos.UserUpdateDTO;
 import cz.svonavec.tennis.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ public class UserFacade {
 
     private final UserService userService;
 
+    @Autowired
     public UserFacade(UserMapper userMapper, UserService userService) {
         this.userMapper = userMapper;
         this.userService = userService;

@@ -5,6 +5,7 @@ import cz.svonavec.tennis.models.dtos.ReservationCreateDTO;
 import cz.svonavec.tennis.models.dtos.ReservationDTO;
 import cz.svonavec.tennis.models.dtos.ReservationUpdateDTO;
 import cz.svonavec.tennis.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ public class ReservationFacade {
 
     private final ReservationService reservationService;
 
+    @Autowired
     public ReservationFacade (ReservationMapper reservationMapper, ReservationService reservationService) {
         this.reservationMapper = reservationMapper;
         this.reservationService =reservationService;

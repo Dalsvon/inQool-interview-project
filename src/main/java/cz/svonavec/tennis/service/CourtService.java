@@ -18,15 +18,11 @@ public class CourtService {
 
     public final SurfaceTypeService surfaceTypeService;
 
-    public final ReservationService reservationService;
-
     @Autowired
     public CourtService(CourtRepository courtRepository,
-                        SurfaceTypeService surfaceTypeService,
-                        ReservationService reservationService){
+                        SurfaceTypeService surfaceTypeService){
         this.courtRepository = courtRepository;
         this.surfaceTypeService = surfaceTypeService;
-        this.reservationService = reservationService;
     }
 
     @Transactional(readOnly = true)
@@ -73,10 +69,6 @@ public class CourtService {
     @Transactional
     public Court delete(long id) {
         Court court = findById(id);
-        List<Reservation> reservations = reservationService.findByCourt(id);
-        for (Reservation reservation : reservations) {
-            reservationService.delete(reservation.getId());
-        }
         return courtRepository.delete(court);
     }
 }

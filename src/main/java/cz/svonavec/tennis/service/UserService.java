@@ -18,14 +18,11 @@ public class UserService {
 
     public final UserRepository userRepository;
 
-    public final ReservationService reservationService;
-
     public final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ReservationService reservationService, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
-        this.reservationService = reservationService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -92,10 +89,6 @@ public class UserService {
     @Transactional
     public User delete(long id) {
         User user = findById(id);
-        List<Reservation> reservations = reservationService.findByPhone(user.getPhoneNumber(), false);
-        for (Reservation reservation : reservations) {
-            reservationService.delete(reservation.getId());
-        }
         return userRepository.delete(user);
     }
 }

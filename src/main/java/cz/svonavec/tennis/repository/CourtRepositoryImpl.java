@@ -1,6 +1,7 @@
 package cz.svonavec.tennis.repository;
 
 import cz.svonavec.tennis.models.entities.Court;
+import cz.svonavec.tennis.models.entities.Reservation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -51,6 +52,9 @@ public class CourtRepositoryImpl implements CourtRepository{
     @Transactional
     public Court delete(Court court) {
         LocalDateTime dateTime = LocalDateTime.now();
+        entityManager.createQuery("UPDATE Reservation reservation " +
+                        "SET reservation.deletedAt = :dateTime WHERE reservation.court.id = :id AND reservation.deletedAt IS NULL", Reservation.class)
+                .setParameter("id", court.getId()).setParameter("dateTime", dateTime).executeUpdate();
         court.setDeletedAt(dateTime);
         return entityManager.merge(court);
     }
