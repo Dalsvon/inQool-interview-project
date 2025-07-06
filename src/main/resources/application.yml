@@ -16,6 +16,13 @@ spring:
 server:
   port: 8080
 
+application:
+  jwt:
+    secret: 72f49e5265e83e07d350862da5eb0acaac6959e75eb0faebfe80baceb9bcc28a
+    expiration-time : 86400000
+    refresh:
+      expiration-time : 604800000
+
 springdoc:
   api-docs:
     path: /v3/api-docs

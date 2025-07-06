@@ -2,12 +2,13 @@ package cz.svonavec.tennis.service;
 
 import cz.svonavec.tennis.exception.BadRequestException;
 import cz.svonavec.tennis.exception.ResourceNotFoundException;
-import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.Role;
 import cz.svonavec.tennis.models.entities.User;
 import cz.svonavec.tennis.repository.UserRepository;
-import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     public final UserRepository userRepository;
 
@@ -43,6 +44,15 @@ public class UserService {
             throw new ResourceNotFoundException("Couldn't find user with this id.");
         }
         return user;
+    }
+
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) {
+        try {
+            return findByPhoneNumber(username);
+        } catch (ResourceNotFoundException e) {
+            throw new UsernameNotFoundException("User not found with phone number: " + username, e);
+        }
     }
 
     @Transactional(readOnly = true)

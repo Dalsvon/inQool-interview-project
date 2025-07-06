@@ -1,4 +1,4 @@
-package cz.svonavec.tennis.filter;
+package cz.svonavec.tennis.security;
 
 import cz.svonavec.tennis.service.JwtService;
 import cz.svonavec.tennis.service.UserService;
@@ -19,6 +19,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Token filter that checks validity of a bearer token and sets up security context.
+ */
 @Slf4j
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -33,6 +36,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+    /**
+     * Internal filter that checks if the request has Bearer token in authentication header, validates it and sets up
+     * security context.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @param filterChain filter chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -41,22 +54,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             if (token != null) {
                 String phoneNumber = jwtService.extractUsername(token);
 
-                UserDetails userDetails = userService.findByPhoneNumber(phoneNumber);
-                if (jwtService.validateToken(token, userDetails, jwtService.extractType(token))) {
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userService.findByPhoneNumber(phoneNumber);
+                    if (jwtService.validateToken(token, userDetails, jwtService.extractType(token))) {
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
                 }
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
+            log.error("Cannot set user authentication: {}", e.getMessage(), e);
         }
 
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Checks if Authorization header exists and correctly begins with Bearer.
+     *
+     * @param request servlet request
+     * @return token if the Authorization header is Bearer token and null otherwise
+     */
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
