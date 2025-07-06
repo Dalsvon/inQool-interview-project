@@ -2,6 +2,7 @@ package cz.svonavec.tennis.config;
 
 import cz.svonavec.tennis.security.AuthEntryPoint;
 import cz.svonavec.tennis.security.AuthTokenFilter;
+import cz.svonavec.tennis.security.CustomAccessDeniedHandler;
 import cz.svonavec.tennis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,19 +30,21 @@ import java.util.List;
 public class SecurityConfig {
     private final AuthTokenFilter authTokenFilter;
     private final AuthEntryPoint unauthorizedHandler;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
     private final UserService userService;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public SecurityConfig(AuthTokenFilter authTokenFilter,
                           AuthEntryPoint unauthorizedHandler,
                           UserService userService,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder,
+                          CustomAccessDeniedHandler accessDeniedHandler) {
         this.authTokenFilter = authTokenFilter;
         this.unauthorizedHandler = unauthorizedHandler;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Bean
@@ -63,6 +65,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

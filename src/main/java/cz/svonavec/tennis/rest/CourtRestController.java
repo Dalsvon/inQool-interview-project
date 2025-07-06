@@ -7,11 +7,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +30,14 @@ public class CourtRestController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Find court by ID", description = "Returns a court with corresponding ID")
+    @Operation(summary = "Find court by ID",
+            description = "Returns a court with corresponding ID",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Court found"),
             @ApiResponse(responseCode = "404", description = "Court not found")
     })
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<CourtDTO> findById(
             @Parameter(description = "ID of the court to be retrieved", required = true,
                     example = "1")
@@ -41,21 +46,25 @@ public class CourtRestController {
     }
 
     @GetMapping
-    @Operation(summary = "Find all courts", description = "Returns all courts")
+    @Operation(summary = "Find all courts", description = "Returns all courts",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Courts found")
     })
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<CourtDTO>> findAll(){
         return ResponseEntity.ok(courtFacade.findAll());
     }
 
     @PostMapping
-    @Operation(summary = "Create a new court", description = "Creates a new court and returns it.")
+    @Operation(summary = "Create a new court", description = "Creates a new court and returns it.",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Court created successfully"),
             @ApiResponse(responseCode = "404", description = "Surface type not found"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourtDTO> create(
             @Parameter(description = "Court data to create", required = true)
             @Valid @RequestBody CourtCreateDTO courtCreateDTO) {
@@ -63,12 +72,14 @@ public class CourtRestController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update court by ID", description = "Returns a updated court with corresponding ID")
+    @Operation(summary = "Update court by ID", description = "Returns a updated court with corresponding ID",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Court found and updated"),
             @ApiResponse(responseCode = "404", description = "Court or surface not found"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourtDTO> update(
             @Parameter(description = "ID of the court to be retrieved", required = true,
                     example = "1")
@@ -81,11 +92,13 @@ public class CourtRestController {
     }
 
     @DeleteMapping ("/{id}")
-    @Operation(summary = "Delete court by ID", description = "Deletes a court with corresponding ID")
+    @Operation(summary = "Delete court by ID", description = "Deletes a court with corresponding ID",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Court found and deleted"),
             @ApiResponse(responseCode = "404", description = "Court not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CourtDTO> delete(
             @Parameter(description = "ID of the court to be deleted", required = true,
                     example = "1")

@@ -63,18 +63,6 @@ public class UserRestController {
         return ResponseEntity.ok(userFacade.findAll());
     }
 
-    @PostMapping
-    @Operation(summary = "Register a user", description = "Registers user and returns it.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request")
-    })
-    public ResponseEntity<UserDTO> register(
-            @Parameter(description = "User data to create", required = true)
-            @Valid @RequestBody UserRegisterDTO userRegisterDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userFacade.register(userRegisterDTO));
-    }
-
     @PutMapping
     @Operation(summary = "Update an user", description = "Returns an updated user with corresponding ID")
     @ApiResponses(value = {
