@@ -10,17 +10,6 @@ import java.util.List;
 
 @Service
 public class SurfaceTypeMapper {
-    public SurfaceType mapToEntity(SurfaceTypeDTO dto) {
-        SurfaceType type = new SurfaceType();
-
-        type.setName(dto.getName());
-        type.setDeletedAt(dto.getDeletedAt());
-        type.setCostPerMinute(dto.getCostPerMinute());
-        type.setId(dto.getId());
-
-        return type;
-    }
-
     public SurfaceType mapToEntity(SurfaceTypeCreateDTO dto) {
         SurfaceType type = new SurfaceType();
 

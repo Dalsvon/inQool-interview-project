@@ -19,9 +19,9 @@ server:
 application:
   jwt:
     secret: 72f49e5265e83e07d350862da5eb0acaac6959e75eb0faebfe80baceb9bcc28a
-    expiration-time : 86400000
+    expiration-time : 1800000
     refresh:
-      expiration-time : 604800000
+      expiration-time : 60480000
 
 springdoc:
   api-docs:

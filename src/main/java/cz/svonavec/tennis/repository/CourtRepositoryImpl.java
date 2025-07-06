@@ -1,7 +1,6 @@
 package cz.svonavec.tennis.repository;
 
 import cz.svonavec.tennis.models.entities.Court;
-import cz.svonavec.tennis.models.entities.Reservation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;

@@ -16,10 +16,10 @@ public class JwtService {
     @Value("${application.jwt.secret}")
     private String secretKey;
 
-    @Value("${application.jwt.expiration-time:86400000}")
+    @Value("${application.jwt.expiration-time:1800000}")
     private long jwtExpiration;
 
-    @Value("${application.jwt.refresh.expiration-time:604800000}")
+    @Value("${application.jwt.refresh.expiration-time:60480000}")
     private long jwtRefreshExpiration;
 
     public long getJwtExpiration() {
