@@ -44,7 +44,7 @@ public class ReservationMapper {
         dto.setDeletedAt(reservation.getDeletedAt());
         dto.setCreatedAt(reservation.getCreatedAt());
         dto.setCourt(courtMapper.mapToDTO(reservation.getCourt()));
-        dto.setUser(userMapper.mapToDTO(reservation.getUser()));
+        dto.setUserId(reservation.getUser().getId());
 
         return dto;
     }

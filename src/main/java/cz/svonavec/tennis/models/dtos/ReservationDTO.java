@@ -39,6 +39,6 @@ public class ReservationDTO {
     @Schema(description = "Court that is reserved", accessMode = Schema.AccessMode.READ_ONLY)
     private CourtDTO court;
 
-    @Schema(description = "User that is reserving the court", accessMode = Schema.AccessMode.READ_ONLY)
-    private UserDTO user;
+    @Schema(description = "ID of the user that is reserving the court", accessMode = Schema.AccessMode.READ_ONLY)
+    private long userId;
 }
