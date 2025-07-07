@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--Password is - Password123-->
+    <changeSet id="11-create-test-admin-user" author="svonavec" context="admin-init">
+        <insert tableName="Users">
+            <column name="phone_number" value="+420111111111"/>
+            <column name="name" value="John Smith"/>
+            <column name="password" value="$2a$10$H8SmR0ICxcZnxfZUG9sCte4hP7fYY/Y6ZSuM5dNOTbo.VqkGw9Dbm"/>
+            <column name="created_at" valueDate="NOW()" />
+        </insert>
+
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
