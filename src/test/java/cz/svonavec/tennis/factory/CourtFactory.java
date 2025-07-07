@@ -1,13 +1,13 @@
 package cz.svonavec.tennis.factory;
 
+import cz.svonavec.tennis.models.dtos.CourtCreateDTO;
 import cz.svonavec.tennis.models.dtos.CourtDTO;
 import cz.svonavec.tennis.models.entities.Court;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 
 import java.time.LocalDateTime;
 
-import static cz.svonavec.tennis.factory.SurfaceTypeFactory.createSurfaceType;
-import static cz.svonavec.tennis.factory.SurfaceTypeFactory.createSurfaceTypeDTO;
+import static cz.svonavec.tennis.factory.SurfaceTypeFactory.*;
 
 public class CourtFactory {
     public static Court createCourt() {
@@ -39,6 +39,22 @@ public class CourtFactory {
         court.setDescription("Standard tennis court");
         court.setSurface(createSurfaceTypeDTO());
         court.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
+        return court;
+    }
+
+    public static CourtDTO createCourtDTORest() {
+        CourtDTO court = new CourtDTO();
+        court.setId(1L);
+        court.setDescription("Standard tennis court");
+        court.setSurface(createSurfaceTypeDTORest());
+        court.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
+        return court;
+    }
+
+    public static CourtCreateDTO createCourtCreateDTORest() {
+        CourtCreateDTO court = new CourtCreateDTO();
+        court.setDescription("Standard tennis court");
+        court.setSurfaceId(1L);
         return court;
     }
 }

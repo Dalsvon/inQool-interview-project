@@ -22,11 +22,4 @@ public class ExceptionController {
         log.warn("Bad request: {}", exception.getMessage());
         return exception.getMessage();
     }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleGeneral(Exception exception) {
-        log.error("Unexpected error occurred", exception);
-        return "An unexpected error occurred";
-    }
 }

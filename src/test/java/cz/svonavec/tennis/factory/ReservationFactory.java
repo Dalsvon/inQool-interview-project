@@ -1,8 +1,6 @@
 package cz.svonavec.tennis.factory;
 
-import cz.svonavec.tennis.models.dtos.CourtDTO;
-import cz.svonavec.tennis.models.dtos.ReservationDTO;
-import cz.svonavec.tennis.models.dtos.UserDTO;
+import cz.svonavec.tennis.models.dtos.*;
 import cz.svonavec.tennis.models.entities.Court;
 import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.User;
@@ -49,5 +47,36 @@ public class ReservationFactory {
         reservation.setUserId(1);
         reservation.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
         return reservation;
+    }
+
+    public static ReservationDTO createReservationDTORest() {
+        ReservationDTO reservation = new ReservationDTO();
+        reservation.setDoubles(false);
+        reservation.setId(1L);
+        reservation.setStartsAt(LocalDateTime.of(2025, 1, 1, 10, 0));
+        reservation.setEndsAt(LocalDateTime.of(2025, 1, 1, 11, 0));
+        reservation.setCost(BigDecimal.valueOf(60.00));
+        reservation.setCourt(CourtFactory.createCourtDTORest());
+        reservation.setUserId(1L);
+        reservation.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
+        return reservation;
+    }
+
+    public static ReservationCreateDTO createReservationCreateDTO() {
+        ReservationCreateDTO reservationCreateDTO = new ReservationCreateDTO();
+        reservationCreateDTO.setDoubles(false);
+        reservationCreateDTO.setStartsAt(LocalDateTime.now().plusHours(1));
+        reservationCreateDTO.setEndsAt(LocalDateTime.now().plusHours(2));
+        reservationCreateDTO.setCourtId(1L);
+        reservationCreateDTO.setPhoneNumber("+420907123456");
+        return reservationCreateDTO;
+    }
+
+    public static ReservationUpdateDTO createReservationUpdateDTO() {
+        ReservationUpdateDTO reservationUpdateDTO = new ReservationUpdateDTO();
+        reservationUpdateDTO.setId(1L);
+        reservationUpdateDTO.setDoubles(true);
+        reservationUpdateDTO.setCost(new BigDecimal("200.00"));
+        return reservationUpdateDTO;
     }
 }
