@@ -27,7 +27,11 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Reservation> findAll() {
-        return entityManager.createQuery("SELECT reservation FROM Reservation reservation WHERE reservation.deletedAt IS NULL", Reservation.class)
+        return entityManager.createQuery("SELECT reservation FROM Reservation reservation " +
+                        "JOIN FETCH reservation.court c " +
+                        "JOIN FETCH c.surface s " +
+                        "JOIN FETCH reservation.user r " +
+                        "WHERE reservation.deletedAt IS NULL", Reservation.class)
                 .getResultList();
     }
 
@@ -35,6 +39,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     @Transactional(readOnly = true)
     public List<Reservation> findByCourt(long id) {
         return entityManager.createQuery("SELECT reservation FROM Reservation reservation " +
+                        "JOIN FETCH reservation.court c JOIN FETCH c.surface s JOIN FETCH reservation.user r " +
                         "WHERE reservation.deletedAt IS NULL AND reservation.court.id = :id " +
                         "ORDER BY reservation.createdAt ASC", Reservation.class)
                 .setParameter("id", id)
@@ -47,6 +52,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         LocalDateTime time = LocalDateTime.now();
         if (futureOnly) {
             return entityManager.createQuery("SELECT reservation FROM Reservation reservation " +
+                            "JOIN FETCH reservation.court c JOIN FETCH c.surface s JOIN FETCH reservation.user r " +
                             "WHERE reservation.deletedAt IS NULL AND reservation.user.phoneNumber = :phoneNumber AND " +
                             "reservation.startsAt > :time ORDER BY reservation.createdAt ASC", Reservation.class)
                     .setParameter("phoneNumber", phoneNumber)
@@ -54,6 +60,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                     .getResultList();
         }
         return entityManager.createQuery("SELECT reservation FROM Reservation reservation " +
+                        "JOIN FETCH reservation.court c JOIN FETCH c.surface s JOIN FETCH reservation.user r " +
                         "WHERE reservation.deletedAt IS NULL AND reservation.user.phoneNumber = :phoneNumber " +
                         "ORDER BY reservation.createdAt ASC", Reservation.class)
                 .setParameter("phoneNumber", phoneNumber)

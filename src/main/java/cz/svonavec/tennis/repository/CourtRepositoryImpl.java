@@ -27,7 +27,8 @@ public class CourtRepositoryImpl implements CourtRepository{
     @Override
     @Transactional(readOnly = true)
     public List<Court> findAll() {
-        return entityManager.createQuery("SELECT court FROM Court court WHERE court.deletedAt IS NULL", Court.class)
+        return entityManager.createQuery("SELECT court FROM Court court " +
+                        "JOIN FETCH court.surface s WHERE court.deletedAt IS NULL", Court.class)
                 .getResultList();
     }
 
