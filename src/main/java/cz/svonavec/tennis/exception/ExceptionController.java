@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Class handling change of thrown exceptions to http status codes sent as a response to users
+ */
 @Slf4j
 @RestControllerAdvice
 public class ExceptionController {

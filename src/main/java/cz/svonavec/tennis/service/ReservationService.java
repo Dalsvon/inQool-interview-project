@@ -17,11 +17,9 @@ import java.util.List;
 
 @Service
 public class ReservationService {
-
     public final ReservationRepository reservationRepository;
 
     public final UserService userService;
-
     public final CourtService courtService;
 
     @Autowired
@@ -57,6 +55,19 @@ public class ReservationService {
         return reservationRepository.findByPhone(phoneNumber, futureOnly);
     }
 
+    /**
+     * Checks if a time duration of a reservation (consisting of 2 timestamps) is in conflict (is overlapping)
+     * with another reservation on the same court. Two reservations can overlap in one point
+     * (one can start when another ends), but otherwise they must be completely non-overlapping.
+     *
+     * During update the reservation can overlap with itself.
+     *
+     * @param start start of the reservation, which must be before end of the reservation
+     * @param end end of the reservation
+     * @param courtId id of the court for reservation
+     * @param id id of the reservation
+     * @return true, if there is a conflict between 2 reservations for the same court
+     */
     @Transactional
     public boolean isOverlapping(LocalDateTime start, LocalDateTime end, long courtId, long id) {
         if (end.isBefore(start)) {
@@ -73,6 +84,17 @@ public class ReservationService {
         return false;
     }
 
+    /**
+     * Creates a new reservation for a user with unique phone number and a court. Reservations for one court cannot
+     * overlap and startsAt timestamp must be before endsAt timestamp. User also has to have User Role to be allowed to
+     * create a reservation. After all conditions are checked, cost of the reservation is calculated and reservation is
+     * created
+     *
+     * @param reservation reservation data
+     * @param phoneNumber unique phone number
+     * @param courtId unique court id
+     * @return overall cost of the reservation
+     */
     @Transactional
     public BigDecimal create(Reservation reservation, String phoneNumber, long courtId) {
         if (reservation.getId() != 0) {

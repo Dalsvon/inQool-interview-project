@@ -1,6 +1,5 @@
 package cz.svonavec.tennis.models.dtos;
 
-import cz.svonavec.tennis.models.entities.Court;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

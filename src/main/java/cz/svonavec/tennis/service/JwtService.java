@@ -12,6 +12,10 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * This service provides support for authentication with JWT tokens. It provides creation, validation and parsing of JWT
+ * tokens.
+ */
 @Slf4j
 @Service
 public class JwtService {
@@ -34,36 +38,49 @@ public class JwtService {
 
     public String generateToken(UserDetails user) {
         String phone = user.getUsername();
-        return Jwts.builder()
-                .setSubject(phone)
-                .claim("type", "access")
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + getJwtExpiration()))
-                .signWith(getSigningKey())
-                .compact();
+        return generateTokenFromPhone(phone);
     }
 
+    /**
+     * Generates a new token for a user with given phone (phone is the unique username)
+     *
+     * @param phone unique phone number
+     * @return new access token
+     */
     public String generateTokenFromPhone(String phone) {
-        return Jwts.builder()
+        return generateTokenFromPhone(phone, "access");
+    }
+
+    /**
+     * Generates a new token for a user with given phone (phone is the unique username)
+     *
+     * @param phone unique phone number
+     * @param type can be access or refresh token
+     * @return new token
+     */
+    public String generateTokenFromPhone(String phone, String type) {
+        String token = Jwts.builder()
                 .setSubject(phone)
-                .claim("type", "access")
+                .claim("type", type)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + getJwtExpiration()))
                 .signWith(getSigningKey())
                 .compact();
+        log.info("New token was generated for user with phone = {}", phone);
+        return token;
     }
 
     public String generateRefreshToken(UserDetails user) {
         String phone = user.getUsername();
-        return Jwts.builder()
-                .setSubject(phone)
-                .claim("type", "refresh")
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + getJwtRefreshExpiration()))
-                .signWith(getSigningKey())
-                .compact();
+        return generateTokenFromPhone(phone, "refresh");
     }
 
+    /**
+     * Extracts claims from given JWT token
+     *
+     * @param token JWT token
+     * @return claims
+     */
     public Claims extractTokenClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -79,6 +96,15 @@ public class JwtService {
         return false;
     }
 
+    /**
+     * Validates token. If token has wrong structure, another secret, is expired, or is token of other user or type,
+     * this method returns false
+     *
+     * @param token JWT token
+     * @param phone unique phone number
+     * @param type access or refresh type of token
+     * @return true, if the token is valid, else false
+     */
     public boolean validateTokenPhone(String token, String phone, String type) {
         try {
             if (type == null || type.isEmpty()) {

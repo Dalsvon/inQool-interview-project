@@ -3,7 +3,6 @@ package cz.svonavec.tennis.service;
 import cz.svonavec.tennis.exception.BadRequestException;
 import cz.svonavec.tennis.exception.ResourceNotFoundException;
 import cz.svonavec.tennis.models.entities.Court;
-import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.SurfaceType;
 import cz.svonavec.tennis.repository.CourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;

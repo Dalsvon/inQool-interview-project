@@ -60,6 +60,15 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    /**
+     * Registers a new user to the system. All users are created with Role User. User password must be at least 8
+     * characters long and contain digits and capital letters. Phone number must be unique and never before used in
+     * the database. After all conditions are checked, the password is encoded and the user is registered.
+     *
+     * @param user user data
+     * @param unhashedPassword unhashed password
+     * @return registered user
+     */
     @Transactional
     public User register(User user, String unhashedPassword) {
         if (user.getId() != 0 || user.getPhoneNumber() == null) {

@@ -1,8 +1,8 @@
 package cz.svonavec.tennis.mapper;
 
-import cz.svonavec.tennis.models.dtos.*;
+import cz.svonavec.tennis.models.dtos.ReservationCreateDTO;
+import cz.svonavec.tennis.models.dtos.ReservationDTO;
 import cz.svonavec.tennis.models.entities.Reservation;
-import cz.svonavec.tennis.models.entities.SurfaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,10 @@ import java.util.List;
 @Service
 public class ReservationMapper {
 
-    private final UserMapper userMapper;
-
     private final CourtMapper courtMapper;
 
     @Autowired
-    public ReservationMapper(UserMapper userMapper, CourtMapper courtMapper) {
-        this.userMapper = userMapper;
+    public ReservationMapper(CourtMapper courtMapper) {
         this.courtMapper = courtMapper;
     }
 

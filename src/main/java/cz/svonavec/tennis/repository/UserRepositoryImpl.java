@@ -1,6 +1,5 @@
 package cz.svonavec.tennis.repository;
 
-import cz.svonavec.tennis.models.entities.Reservation;
 import cz.svonavec.tennis.models.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;

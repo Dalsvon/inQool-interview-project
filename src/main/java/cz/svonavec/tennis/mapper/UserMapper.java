@@ -1,7 +1,8 @@
 package cz.svonavec.tennis.mapper;
 
-import cz.svonavec.tennis.models.dtos.*;
-import cz.svonavec.tennis.models.entities.Court;
+import cz.svonavec.tennis.models.dtos.UserDTO;
+import cz.svonavec.tennis.models.dtos.UserRegisterDTO;
+import cz.svonavec.tennis.models.dtos.UserUpdateDTO;
 import cz.svonavec.tennis.models.entities.User;
 import org.springframework.stereotype.Service;
 

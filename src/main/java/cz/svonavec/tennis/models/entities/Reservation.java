@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.math.RoundingMode;
 
 @Entity
 @Setter
@@ -59,6 +58,14 @@ public class Reservation implements Serializable {
 
     private static BigDecimal DOUBLES_MULTIPLIER = BigDecimal.valueOf(1.5);
 
+    /**
+     * This method calculates cost for the whole reservation. This cost can be different from the value calculated here,
+     * because administrator can change it (for example for discount).
+     *
+     * Cost is calculated from cost per minute for surface type multiplied by whole minutes in reservation.
+     * If the reservation is less than minute long, customer still pays for 1 minute. This cost is then multiplied by
+     * DOUBLES_MULTIPLIER if the game is doubles game.
+     */
     public void calculateCost() {
         if (court == null || court.getSurface() == null || getStartsAt() == null || getEndsAt() == null) {
             cost = BigDecimal.ZERO;
@@ -68,7 +75,7 @@ public class Reservation implements Serializable {
         long minutes = duration.toMinutes();
         BigDecimal gameMultiplier = isDoubles() ? DOUBLES_MULTIPLIER : BigDecimal.ONE;
         BigDecimal minuteCost = court.getSurface().getCostPerMinute().multiply(gameMultiplier);
-        // You pay for minutes you play, unless you create a reservation lasting less then a minute.
+        // You pay for minutes you play, unless you create a reservation lasting less than a minute.
         // In such case you pay for 1 minute
         cost = minutes != 0 ? minuteCost.multiply(BigDecimal.valueOf(minutes)) : minuteCost;
         cost = cost.setScale(2, java.math.RoundingMode.HALF_UP);
