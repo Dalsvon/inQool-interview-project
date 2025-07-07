@@ -77,7 +77,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/refresh")
-    @Operation(summary = "Refresh tokens", description = "Refresh access and refresh tokens")
+    @Operation(summary = "Refresh tokens", description = "Refreshes access token")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Refresh token valid. New tokens returned"),
             @ApiResponse(responseCode = "401", description = "Authentication failed.")
