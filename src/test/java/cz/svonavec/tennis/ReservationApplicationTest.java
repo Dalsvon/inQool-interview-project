@@ -7,10 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootTest(classes = ReservationApplication.class)
 @EnableTransactionManagement
 class ReservationApplicationTest {
-
     @Test
-    void contextLoads() {
-    }
-
+    void contextLoads() {}
 }
 

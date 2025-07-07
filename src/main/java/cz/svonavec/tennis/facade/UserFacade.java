@@ -38,11 +38,6 @@ public class UserFacade {
         return userMapper.mapToDTO(userService.findByPhoneNumber(phoneNumber));
     }
 
-    @Transactional(readOnly = true)
-    public boolean login(String phoneNumber, String password) {
-        return userService.login(phoneNumber, password);
-    }
-
     @Transactional
     public UserDTO register(UserRegisterDTO dto) {
         return userMapper.mapToDTO(userService.register(userMapper.mapToEntity(dto), dto.getPassword()));

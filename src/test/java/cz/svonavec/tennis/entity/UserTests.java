@@ -1,7 +1,6 @@
 package cz.svonavec.tennis.entity;
 
 import cz.svonavec.tennis.factory.UserFactory;
-import cz.svonavec.tennis.models.entities.Role;
 import cz.svonavec.tennis.models.entities.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

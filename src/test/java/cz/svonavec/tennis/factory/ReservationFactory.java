@@ -27,13 +27,25 @@ public class ReservationFactory {
         return reservation;
     }
 
-    public static ReservationDTO createReservationDTO(CourtDTO courtDTO) {
+    public static Reservation createReservation() {
+        Reservation reservation = new Reservation();
+        reservation.setDoubles(false);
+        reservation.setStartsAt(LocalDateTime.of(2025, 1, 1, 10, 0));
+        reservation.setEndsAt(LocalDateTime.of(2025, 1, 1, 11, 0));
+        reservation.setCost(BigDecimal.valueOf(60.00));
+        reservation.setCourt(CourtFactory.createCourt());
+        reservation.setUser(UserFactory.createUser());
+        reservation.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
+        return reservation;
+    }
+
+    public static ReservationDTO createReservationDTO() {
         ReservationDTO reservation = new ReservationDTO();
         reservation.setDoubles(false);
         reservation.setStartsAt(LocalDateTime.of(2025, 1, 1, 10, 0));
         reservation.setEndsAt(LocalDateTime.of(2025, 1, 1, 11, 0));
         reservation.setCost(BigDecimal.valueOf(60.00));
-        reservation.setCourt(courtDTO);
+        reservation.setCourt(CourtFactory.createCourtDTO());
         reservation.setUserId(1);
         reservation.setCreatedAt(LocalDateTime.of(2025, 1, 1, 0, 0));
         return reservation;

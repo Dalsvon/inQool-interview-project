@@ -60,7 +60,7 @@ public class Reservation implements Serializable {
     private static BigDecimal DOUBLES_MULTIPLIER = BigDecimal.valueOf(1.5);
 
     public void calculateCost() {
-        if (court == null || court.getSurface() == null) {
+        if (court == null || court.getSurface() == null || getStartsAt() == null || getEndsAt() == null) {
             cost = BigDecimal.ZERO;
             return;
         }
