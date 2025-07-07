@@ -33,3 +33,4 @@ configurations.
 
 Seeding and admin account initialization can be also managed here by adding or removing contexts from spring.liquibase.contexts.
 
+The JWT secret needs to be changed before production.
