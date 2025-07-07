@@ -3,6 +3,7 @@ package cz.svonavec.tennis.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Slf4j
 @Service
 public class JwtService {
     @Value("${application.jwt.secret}")
@@ -41,6 +43,16 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateTokenFromPhone(String phone) {
+        return Jwts.builder()
+                .setSubject(phone)
+                .claim("type", "access")
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + getJwtExpiration()))
+                .signWith(getSigningKey())
+                .compact();
+    }
+
     public String generateRefreshToken(UserDetails user) {
         String phone = user.getUsername();
         return Jwts.builder()
@@ -61,13 +73,25 @@ public class JwtService {
     }
 
     public boolean validateToken(String token, UserDetails user, String type) {
-        if (type == null) {
-            type = "access";
+        if (user != null && user.getUsername() != null) {
+            return validateTokenPhone(token, user.getUsername(), type);
         }
-        String phone = user.getUsername();
-        return phone.equals(extractUsername(token)) &&
-                extractExpiration(token).after(new Date()) &&
-                type.equals(extractType(token));
+        return false;
+    }
+
+    public boolean validateTokenPhone(String token, String phone, String type) {
+        try {
+            if (type == null || type.isEmpty()) {
+                type = "access";
+            }
+
+            return phone.equals(extractUsername(token)) &&
+                    extractExpiration(token).after(new Date()) &&
+                    type.equals(extractType(token));
+        } catch (Exception e) {
+            log.error("Token validation error: {}", e.getMessage());
+            return false;
+        }
     }
 
     public String extractUsername(String token) {

@@ -76,6 +76,15 @@ public class SurfaceTypeServiceTests {
     }
 
     @Test
+    void create_surfaceHasId_throwsBadRequestException() {
+        SurfaceType surfaceType = SurfaceTypeFactory.createSurfaceType();
+        surfaceType.setName("Hard");
+        surfaceType.setId(1L);
+
+        assertThrows(BadRequestException.class, () -> surfaceTypeService.create(surfaceType));
+    }
+
+    @Test
     void update_surfaceUpdated_returnsSurface() {
         // Arrange
         SurfaceType surfaceTypeUpdate = SurfaceTypeFactory.createSurfaceType();

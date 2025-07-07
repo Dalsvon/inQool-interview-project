@@ -60,14 +60,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public boolean login(String phoneNumber, String password) {
-        User user = findByPhoneNumber(phoneNumber);
-        return passwordEncoder.matches(password, user.getPassword());
-    }
-
     @Transactional
     public User register(User user, String unhashedPassword) {
+        if (user.getId() != 0 || user.getPhoneNumber() == null) {
+            throw new BadRequestException("Trying to create a court with set id or no phone.");
+        }
         if (unhashedPassword.length() < 8 || unhashedPassword.chars().noneMatch(Character::isDigit) ||
                 unhashedPassword.chars().noneMatch(Character::isUpperCase)) {
             throw new BadRequestException("Password must contain at least 8 characters, numbers and capitals.");
